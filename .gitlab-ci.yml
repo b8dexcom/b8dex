@@ -1,0 +1,26 @@
+image: node:16
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - export PATH=./node_modules/.bin:$PATH
+  - yarn install
+
+
+deploy_beta:
+  stage: deploy
+  only:
+    - main
+  script:
+    - yarn run build
+    - yarn run deploy-beta
+
+deploy_release:
+  stage: deploy
+  only:
+    - tags
+  script:
+    - yarn run build
+    - yarn run deploy-release
